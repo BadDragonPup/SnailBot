@@ -10,7 +10,12 @@ const logger = Logger.getInstance();
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.once('ready', () => {
-    logger.info(`Logged in as ${client.user?.tag}`);
+    if (client.user) {
+        logger.info(`Logged in as ${client.user.tag}`);
+    } else {
+        logger.error('Client user is null.');
+        process.exit(1); // Exit the process with an error code
+    }
 });
 
 try {
