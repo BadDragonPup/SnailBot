@@ -12,7 +12,6 @@ This is a complex Discord bot built primarily using TypeScript and the Discord.j
 ## Getting Started
 
 Install Link: https://discord.com/oauth2/authorize?client_id=1322072131932258305&permissions=580544287153344&integration_type=0&scope=bot
-
 ### Prerequisites
 
 - Node.js (version 14 or higher)
