@@ -4,7 +4,8 @@ import { Message, TextChannel, ChannelType } from 'discord.js';
 export const infoCommand: Command = {
     name: 'info',
     description: 'Description of the Info command',
-    execute: (args: string[], message: Message) => {
+    execute: async (args: string[], message: Message): Promise<void> => {
+        console.log('Executing Info command with args:', args);
         const botInfo = `
 **SnailBot Functions:**
 - **!info**: Provides information about the bot's functions.
@@ -28,8 +29,8 @@ export const infoCommand: Command = {
 - **!shuffle**: Shuffles the current audio queue.
 `;
         if (message.channel.type === ChannelType.GuildText) {
-            (message.channel as TextChannel).send('Info command executed.');
-            (message.channel as TextChannel).send(botInfo);
+            await (message.channel as TextChannel).send('Info command executed.');
+            await (message.channel as TextChannel).send(botInfo);
         }
     },
 };

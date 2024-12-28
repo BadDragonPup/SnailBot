@@ -1,17 +1,16 @@
 import { Command } from './command';
 import { Message, TextChannel, ChannelType } from 'discord.js';
 
-const GoldBarCommandConfig = {
-
-    name: 'GoldBar',
-
+export const goldBarCommand: Command = {
+    name: 'goldbar',
     description: 'GoldBar command description',
-
-    execute: (args: string[]) => {
-
+    execute: async (args: string[], message: Message): Promise<void> => {
         console.log('Executing GoldBar command with args:', args);
+        if (message.channel.type === ChannelType.GuildText) {
+            await (message.channel as TextChannel).send('GoldBar command executed.');
+        }
     }
-}
+};
 
 export class GoldBarCommand {
     private total: number;
@@ -36,14 +35,3 @@ export class GoldBarCommand {
         this.total = 0;
     }
 }
-
-export const goldBarCommand: Command = {
-    name: 'goldbar',
-    description: 'Description of the GoldBar command',
-    execute: (args: string[], message: Message) => {
-        // Implementation of the execute function
-        if (message.channel.type === ChannelType.GuildText) {
-            (message.channel as TextChannel).send('GoldBar command executed.');
-        }
-    },
-};
