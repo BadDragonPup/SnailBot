@@ -11,7 +11,7 @@ const cooldowns: Record<string, Record<string, number>> = {};
 export function handleMessage(message: Message) {
     if (message.author.bot) return;
 
-    const prefix = '!';
+    const prefix = '/'; // Change prefix to '/'
     if (!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -27,6 +27,27 @@ export function handleMessage(message: Message) {
                 return message.reply('You do not have permission to use this command.');
             }
         }
+
+        // Check for cooldowns
+        if (!cooldowns[commandName]) {
+            cooldowns[commandName] = {};
+        }
+
+        const now = Date.now();
+        const timestamps = cooldowns[commandName];
+        const cooldownAmount = (command.cooldown || 3) * 1000;
+
+        if (timestamps[message.author.id]) {
+            const expirationTime = timestamps[message.author.id] + cooldownAmount;
+
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
+            }
+        }
+
+        timestamps[message.author.id] = now;
+        setTimeout(() => delete timestamps[message.author.id], cooldownAmount);
 
         // Execute the command
         try {
