@@ -26,7 +26,7 @@ try {
     process.exit(1); // Exit the process with an error code
 }
 
-const requiredEnvVars = ['DISCORD_TOKEN', 'ANOTHER_ENV_VAR']; // Add all required environment variables here
+const requiredEnvVars = ['DISCORD_TOKEN', 'CLIENT_SECRET']; // Add all required environment variables here
 requiredEnvVars.forEach((envVar) => {
     if (!process.env[envVar]) {
         logger.error(`${envVar} environment variable is not set.`);
