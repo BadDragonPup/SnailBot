@@ -1,7 +1,11 @@
 import { Command } from './command';
-import { Message, TextChannel } from 'discord.js';
+import { Message, TextChannel, CommandInteraction } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import Logger from '../utils/logger';
 
 export const commands = new Map<string, Command>();
+
+const logger = Logger.getInstance();
 
 export const helpCommand: Command = {
     name: 'help',
@@ -12,6 +16,22 @@ export const helpCommand: Command = {
             .join('\n');
         if (message.channel instanceof TextChannel) {
             (message.channel as TextChannel).send(helpMessage);
+        }
+    },
+};
+
+export default {
+    data: new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Provides help information for commands.'),
+    async execute(interaction: CommandInteraction) {
+        try {
+            const helpMessage = 'Here are the available commands:\n- /ping: Replies with Pong!\n- /help: Provides help information for commands.';
+            await interaction.reply(helpMessage);
+            logger.info('Help command executed successfully.');
+        } catch (error) {
+            logger.error('Error executing help command:', error as Error);
+            await interaction.reply({ content: 'There was an error executing the help command.', ephemeral: true });
         }
     },
 };
