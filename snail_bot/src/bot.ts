@@ -21,12 +21,15 @@ try {
     process.exit(1); // Exit the process with an error code
 }
 
-if (!process.env.DISCORD_TOKEN) {
+const token = process.env.DISCORD_TOKEN;
+if (!token) {
     logger.error('DISCORD_TOKEN environment variable is not set.');
     process.exit(1); // Exit the process with an error code
 }
 
-client.login(process.env.DISCORD_TOKEN).catch((err: any) => {
+logger.info(`Using token: ${token}`);
+
+client.login(token).catch((err: any) => {
     logger.error('Failed to login:', err);
     process.exit(1); // Exit the process with an error code
 });
